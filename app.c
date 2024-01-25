@@ -35,8 +35,8 @@
  *
  *
  *
- * Student edit: Add your name and email address here:
- * @student    Awesome Student, Awesome.Student@Colorado.edu
+ * Student edit: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ * @student    Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
  *
  *
  *
@@ -161,7 +161,7 @@ SL_WEAK void app_init(void)
 
   // Student Edit: Add a call to gpioInit() here
 
-
+  gpioInit();
 
 } // app_init()
 
@@ -202,10 +202,12 @@ SL_WEAK void app_process_action(void)
   delayApprox(3500000);
 
   gpioLed0SetOn();
+  gpioLed1SetOn();
 
   delayApprox(3500000);
 
   gpioLed0SetOff();
+  gpioLed1SetOff();
 
 } // app_process_action()
 

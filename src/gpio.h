@@ -11,8 +11,8 @@
     Change: Added comment about use of .h files.
 
  *
- * Student edit: Add your name and email address here:
- * @student    Awesome Student, Awesome.Student@Colorado.edu
+ * Student edit: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ * @student    Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
  *
  
  */
