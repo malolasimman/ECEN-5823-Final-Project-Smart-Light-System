@@ -21,7 +21,7 @@ See [Mastering Markdown](https://guides.github.com/features/mastering-markdown/)
 
 <br> <br> <br>
 **3. Is there a meaningful difference in current between the answers for question 1 and 2? Please explain your answer, referencing the main board schematic, WSTK-Main-BRD4001A-A01-schematic.pdf or WSTK-Main-BRD4002A-A06-schematic.pdf, and AEM Accuracy in the ug279-brd4104a-user-guide.pdf. Both of these PDF files are available in the ECEN 5823 Student Public Folder in Google drive at: https://drive.google.com/drive/folders/1ACI8sUKakgpOLzwsGZkns3CQtc7r35bB?usp=sharing . Extra credit is available for this question and depends on your answer.** <br>
-   Answer: There is no difference in static current consumption between questions 1 and 2. Even though the drive strength for StrongAlternateStrong is 10mA and WeakAlternateWeak is 1mA, it does not limit the static current consumption. StrongAlternateStrong and WeakAlternateWeak affect only the slew rate, not the static current.  <br>
+   Answer: There is no difference in static current consumption of 5.40mA between questions 1 and 2. Even though the drive strength for StrongAlternateStrong is 10mA and WeakAlternateWeak is 1mA, it does not limit the static current consumption. StrongAlternateStrong and WeakAlternateWeak affect only the slew rate, not the static current.  <br>
 
 
 
