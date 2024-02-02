@@ -72,8 +72,10 @@
 #define INCLUDE_LOG_DEBUG 1
 #include "src/log.h"
 
-
-
+// Students defined headers
+#include "src/oscillators.h"
+#include "src/timers.h"
+#include "src/irq.h"
 
 // *************************************************
 // Power Manager
@@ -94,8 +96,12 @@
 // Students: We'll need to modify this for A2 onward so that compile time we
 //           control what the lowest EM (energy mode) the MCU sleeps to. So
 //           think "#if (expression)".
-#define APP_IS_OK_TO_SLEEP      (false)
-//#define APP_IS_OK_TO_SLEEP      (true)
+
+#if (LOWEST_ENERGY_MODE == EM0)
+   #define APP_IS_OK_TO_SLEEP      (false)
+#else
+   #define APP_IS_OK_TO_SLEEP      (true)
+#endif
 
 
 // Return values for app_sleep_on_isr_exit():
@@ -161,7 +167,26 @@ SL_WEAK void app_init(void)
 
   // Student Edit: Add a call to gpioInit() here
 
-  gpioInit();
+  gpioInit();       // gpio init
+
+  if(LOWEST_ENERGY_MODE == EM1 || LOWEST_ENERGY_MODE == EM2){
+      sl_power_manager_em_t em = LOWEST_ENERGY_MODE;
+      sl_power_manager_add_em_requirement(em);
+  }
+
+  cmu_init();       // clock init
+  initLETIMER0();   // timer init
+
+  // This is the last thing you do prior to entering your while (1) loop
+  // see: ./gecko_sdk_3.2.3/platform/CMSIS/Include/core_cm4.h for Gecko SDK 3.2.3
+  NVIC_ClearPendingIRQ (LETIMER0_IRQn);
+  NVIC_EnableIRQ(LETIMER0_IRQn); // config NVIC to take IRQs from LETIMER0
+
+//  for (uint8_t energy_mode = EM0; energy_mode <= EM3; energy_mode++) {
+//      // Redefine the LOWEST_ENERGY_MODE macro
+//      #undef LOWEST_ENERGY_MODE
+//      #define LOWEST_ENERGY_MODE (energy_mode)
+//  }
 
 } // app_init()
 
@@ -199,15 +224,16 @@ SL_WEAK void app_process_action(void)
   //         We will create/use a scheme that is far more energy efficient in
   //         later assignments.
 
-  delayApprox(3500000);
+//  delayApprox(3500000);
+//
+//  gpioLed0SetOn();
+//  gpioLed1SetOn();
+//
+//  delayApprox(3500000);
+//
+//  gpioLed0SetOff();
+//  gpioLed1SetOff();
 
-  gpioLed0SetOn();
-  gpioLed1SetOn();
-
-  delayApprox(3500000);
-
-  gpioLed0SetOff();
-  gpioLed1SetOff();
 
 } // app_process_action()
 
