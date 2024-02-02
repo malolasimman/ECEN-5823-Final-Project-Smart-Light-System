@@ -182,12 +182,6 @@ SL_WEAK void app_init(void)
   NVIC_ClearPendingIRQ (LETIMER0_IRQn);
   NVIC_EnableIRQ(LETIMER0_IRQn); // config NVIC to take IRQs from LETIMER0
 
-//  for (uint8_t energy_mode = EM0; energy_mode <= EM3; energy_mode++) {
-//      // Redefine the LOWEST_ENERGY_MODE macro
-//      #undef LOWEST_ENERGY_MODE
-//      #define LOWEST_ENERGY_MODE (energy_mode)
-//  }
-
 } // app_init()
 
 

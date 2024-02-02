@@ -1,8 +1,10 @@
 /*
- * timers.c
- *
+ *  File Name: timers.c
+ *  Description: This code involves initializing the Low energy timer0 for EFR32BG13
  *  Created on: Jan 30, 2024
- *      Author: malolasimman.s.k
+ *  Author: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ *  @student: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ *  Reference: Class lecture note 5
  */
 
 #include "timers.h"
@@ -10,13 +12,10 @@
 #include "em_letimer.h"
 #include "em_cmu.h"
 
-#define INCLUDE_LOG_DEBUG 1
-#include "src/log.h"
 void initLETIMER0()
 {
 
   uint32_t tmp=0;
-
   const LETIMER_Init_TypeDef letimerInitData =
   {
       false,              // enable; don't enable when init completes, we'll enable last
@@ -37,10 +36,9 @@ void initLETIMER0()
   // calculate and load COMP0 (top)
   uint32_t topValue = (LETIMER_PERIOD_MS * CMU_ClockFreqGet(cmuClock_LETIMER0)) / 1000;
   LETIMER_CompareSet(LETIMER0, 0, topValue);
-//  LOG_INFO("topValue %d",topValue);
-//  // calculate and load COMP1
+
+  // calculate and load COMP1
   uint32_t ON_timeVal = (LETIMER_ON_TIME_MS * CMU_ClockFreqGet(cmuClock_LETIMER0)) / 1000;
-  LOG_INFO("ON_timeVal %d",ON_timeVal);
   LETIMER_CompareSet(LETIMER0, 1, ON_timeVal);
 
   // Clear all IRQ flags in the LETIMER0 IF status register

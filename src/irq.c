@@ -1,9 +1,12 @@
 /*
- * irq.c
- *
- *  Created on: Jan 31, 2024
- *      Author: malolasimman.s.k
+ *  File Name: irq.c
+ *  Description: This code involves irq handler definitions
+ *  Created on: Jan 30, 2024
+ *  Author: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ *  @student: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ *  Reference: Class lecture note 5
  */
+
 #include "irq.h"
 #include "em_letimer.h"
 #include "gpio.h"
@@ -25,13 +28,13 @@
 
   // Third: perform whatever processing is required
   if(flags & (LETIMER_IF_COMP1)){
-      gpioLed0SetOff();
-      gpioLed1SetOff();
+      gpioLed0SetOn();
+      gpioLed1SetOn();
   }
 
   if(flags & (LETIMER_IF_UF)){
-      gpioLed0SetOn();
-      gpioLed1SetOn();
+      gpioLed0SetOff();
+      gpioLed1SetOff();
   }
 
   // NVIC IRQs are re-enabled
