@@ -1,18 +1,25 @@
-/*
- *  File Name: irq.c
- *  Description: This code involves irq handler definitions
- *  Created on: Jan 30, 2024
- *  Author: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
- *  @student: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
- *  Reference: Class lecture note 5
- */
+/***************************************************************************//**
+ *
+ * @file irq.c
+ * @brief This code involves irq handler definitions
+ * Created on: Jan 30, 2024
+ * Author: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ * @student: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ * Reference: Class lecture note 5
+ *
+ ******************************************************************************/
 
+/**************************************************************************//**
+ * Headers
+ *****************************************************************************/
 #include "irq.h"
 #include "em_letimer.h"
 #include "gpio.h"
 #include "em_core.h"
 
-
+/**************************************************************************//**
+ * Low Energy Timer0 Interrupt handler
+ *****************************************************************************/
  void LETIMER0_IRQHandler (void){
 
   CORE_DECLARE_IRQ_STATE;

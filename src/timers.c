@@ -1,21 +1,31 @@
-/*
- *  File Name: timers.c
- *  Description: This code involves initializing the Low energy timer0 for EFR32BG13
- *  Created on: Jan 30, 2024
- *  Author: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
- *  @student: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
- *  Reference: Class lecture note 5
- */
+/***************************************************************************//**
+ *
+ * @file timers.c
+ * @brief This code involves initializing the Low energy timer0 for EFR32BG13
+ * Created on: Jan 30, 2024
+ * Author: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ * @student: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ * Reference: Class lecture note 5
+ *
+ ******************************************************************************/
 
+
+/**************************************************************************//**
+ * Headers
+ *****************************************************************************/
 #include "timers.h"
 #include "oscillators.h"
 #include "em_letimer.h"
 #include "em_cmu.h"
 
+/**************************************************************************//**
+ * Low Energy Timer Initialization function
+ *****************************************************************************/
 void initLETIMER0()
 {
 
   uint32_t tmp=0;
+
   const LETIMER_Init_TypeDef letimerInitData =
   {
       false,              // enable; don't enable when init completes, we'll enable last
