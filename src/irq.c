@@ -24,12 +24,12 @@
   LETIMER_IntClear(LETIMER0,0xFFFFFFFF);
 
   // Third: perform whatever processing is required
-  if(flags & (1<<LETIMER_IEN_COMP1)){
+  if(flags & (LETIMER_IF_COMP1)){
       gpioLed0SetOff();
       gpioLed1SetOff();
   }
 
-  if(flags & (1<<LETIMER_IEN_COMP0)){
+  if(flags & (LETIMER_IF_UF)){
       gpioLed0SetOn();
       gpioLed1SetOn();
   }

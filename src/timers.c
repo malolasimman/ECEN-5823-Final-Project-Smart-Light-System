@@ -41,7 +41,7 @@ void initLETIMER0()
 //  // calculate and load COMP1
   uint32_t ON_timeVal = (LETIMER_ON_TIME_MS * CMU_ClockFreqGet(cmuClock_LETIMER0)) / 1000;
   LOG_INFO("ON_timeVal %d",ON_timeVal);
-//  LETIMER_CompareSet(LETIMER0, 1, ON_timeVal);
+  LETIMER_CompareSet(LETIMER0, 1, ON_timeVal);
 
   // Clear all IRQ flags in the LETIMER0 IF status register
   LETIMER_IntClear (LETIMER0, 0xFFFFFFFF);
