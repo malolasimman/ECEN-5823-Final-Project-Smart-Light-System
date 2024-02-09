@@ -82,7 +82,7 @@ void timerWaitUs(uint32_t us_wait)
   else // CASE2 : If the required ticks is less than topValue and greater than current tick
   {
     uint32_t rem_ticks = ticks - curr_ticks;
-    while (LETIMER_CounterGet(LETIMER0) <= ticks); // run loop for current ticks to required ticks
+    while (LETIMER_CounterGet(LETIMER0) <= curr_ticks); // run loop for current ticks to required ticks
 
     delta = topValue - rem_ticks;
     while (LETIMER_CounterGet(LETIMER0) > delta); // run loop for remaining ticks
