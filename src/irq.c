@@ -17,6 +17,8 @@
 #include "gpio.h"
 #include "em_core.h"
 
+
+
 /**************************************************************************//**
  * Low Energy Timer0 Interrupt handler
  *****************************************************************************/
@@ -34,17 +36,12 @@
   LETIMER_IntClear(LETIMER0,0xFFFFFFFF);
 
   // Third: perform whatever processing is required
-  if(flags & (LETIMER_IF_COMP1)){
-      gpioLed0SetOn();
-      gpioLed1SetOn();
-  }
-
   if(flags & (LETIMER_IF_UF)){
-      gpioLed0SetOff();
-      gpioLed1SetOff();
+      schedulerSetEventUF();
   }
 
   // NVIC IRQs are re-enabled
   CORE_EXIT_CRITICAL();
 
  }//LETIMER0_IRQHandler
+

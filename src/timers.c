@@ -15,7 +15,6 @@
  *****************************************************************************/
 #include "timers.h"
 #include "oscillators.h"
-#include "em_letimer.h"
 #include "em_cmu.h"
 
 /**************************************************************************//**
@@ -44,18 +43,14 @@ void initLETIMER0()
   LETIMER_Init (LETIMER0, &letimerInitData);
 
   // calculate and load COMP0 (top)
-  uint32_t topValue = (LETIMER_PERIOD_MS * CMU_ClockFreqGet(cmuClock_LETIMER0)) / 1000;
+  uint32_t topValue = (LETIMER_PERIOD_MS * CMU_ClockFreqGet(cmuClock_LETIMER0)) / SEC_MS;
   LETIMER_CompareSet(LETIMER0, 0, topValue);
-
-  // calculate and load COMP1
-  uint32_t ON_timeVal = (LETIMER_ON_TIME_MS * CMU_ClockFreqGet(cmuClock_LETIMER0)) / 1000;
-  LETIMER_CompareSet(LETIMER0, 1, ON_timeVal);
 
   // Clear all IRQ flags in the LETIMER0 IF status register
   LETIMER_IntClear (LETIMER0, 0xFFFFFFFF);
 
-  // Set UF and COMP1 in LETIMER0_IEN, so that the timer will generate IRQs to the NVIC.
-  tmp = LETIMER_IEN_UF | LETIMER_IEN_COMP1;
+  // Set UF in LETIMER0_IEN, so that the timer will generate IRQs to the NVIC.
+  tmp = LETIMER_IEN_UF ;
   LETIMER_IntEnable (LETIMER0, tmp); // Make sure you have defined the ISR routine LETIMER0_IRQHandler()
 
   // Enable the timer to starting counting down, set LETIMER0_CMD[START] bit, see LETIMER0_STATUS[RUNNING] bit
@@ -63,3 +58,40 @@ void initLETIMER0()
 
 
 }
+
+
+void timerWaitUs(uint32_t us_wait)
+{
+  uint32_t delta =0;
+  uint32_t topValue = LETIMER_TopGet(LETIMER0); // topValue is Configured for 3sec
+  uint32_t ticks = (CMU_ClockFreqGet(cmuClock_LETIMER0) * us_wait)/SEC_US; // converts us_wait to ticks
+
+  if ((ticks > UINT16_MAX) || (ticks > topValue)) // range check
+  {
+      return;
+  }
+
+  uint32_t curr_ticks = LETIMER_CounterGet(LETIMER0);// get current tick
+
+  // CASE1 : If the required ticks is less than topValue and less than current tick
+  if (curr_ticks >= ticks)
+  {
+    delta = curr_ticks - ticks;
+    while (LETIMER_CounterGet(LETIMER0) > delta);
+  }
+  else // CASE2 : If the required ticks is less than topValue and greater than current tick
+  {
+    uint32_t rem_ticks = ticks - curr_ticks;
+    while (LETIMER_CounterGet(LETIMER0) <= ticks); // run loop for current ticks to required ticks
+
+    delta = topValue - rem_ticks;
+    while (LETIMER_CounterGet(LETIMER0) > delta); // run loop for remaining ticks
+
+  }
+
+}
+
+
+
+
+

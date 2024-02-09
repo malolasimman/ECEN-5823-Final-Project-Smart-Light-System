@@ -59,7 +59,7 @@
 #include "src/ble_device_type.h"
 #include "src/gpio.h"
 #include "src/lcd.h"
-
+#include "src/i2c.h"
 
 // Students: Here is an example of how to correctly include logging functions in
 //           each .c file.
@@ -76,6 +76,9 @@
 #include "src/oscillators.h"
 #include "src/timers.h"
 #include "src/irq.h"
+#include "em_core.h"
+#include "src/scheduler.h"
+#include "src/i2c.h"
 
 // *************************************************
 // Power Manager
@@ -169,9 +172,10 @@ SL_WEAK void app_init(void)
 
   gpioInit();       // gpio init
 
-  if(LOWEST_ENERGY_MODE == EM1 || LOWEST_ENERGY_MODE == EM2){
-      sl_power_manager_em_t em = LOWEST_ENERGY_MODE;
-      sl_power_manager_add_em_requirement(em);
+  if(LOWEST_ENERGY_MODE == EM1 || LOWEST_ENERGY_MODE == EM2)
+  {
+    sl_power_manager_em_t em = LOWEST_ENERGY_MODE;
+    sl_power_manager_add_em_requirement(em);
   }
 
   cmu_init();       // clock init
@@ -180,7 +184,7 @@ SL_WEAK void app_init(void)
   // This is the last thing you do prior to entering your while (1) loop
   // see: ./gecko_sdk_3.2.3/platform/CMSIS/Include/core_cm4.h for Gecko SDK 3.2.3
   NVIC_ClearPendingIRQ (LETIMER0_IRQn);
-  NVIC_EnableIRQ(LETIMER0_IRQn); // config NVIC to take IRQs from LETIMER0
+  NVIC_EnableIRQ(LETIMER0_IRQn);  // config NVIC to take IRQs from LETIMER0
 
 } // app_init()
 
@@ -193,7 +197,7 @@ SL_WEAK void app_init(void)
  * comment out this function. Wait loops are a bad idea in general.
  * We'll discuss how to do this a better way in the next assignment.
  *****************************************************************************/
-static void delayApprox(int delay)
+[[maybe_unused]] static void delayApprox(int delay)
 {
   volatile int i;
 
@@ -218,17 +222,22 @@ SL_WEAK void app_process_action(void)
   //         We will create/use a scheme that is far more energy efficient in
   //         later assignments.
 
-//  delayApprox(3500000);
-//
-//  gpioLed0SetOn();
-//  gpioLed1SetOn();
-//
-//  delayApprox(3500000);
-//
-//  gpioLed0SetOff();
-//  gpioLed1SetOff();
+  uint32_t evt = getNextEvent();
 
-
+  switch (evt)
+  {
+    case UF_EVENT:                             // Under flow event
+      GPIO_PinOutSet(gpioPortD, I2C_ENABLE);   // init i2c enable pin set
+      timerWaitUs(_Poweruptime);               // wait for power up time
+      init_temp();                             // initialize the si7021 sensor
+      start_temp();                            // start the temperature sensor
+      timerWaitUs(_14bitCONVTIME);             // 14 bit temperature conversion wait time
+      read_temp_from_si7021();                 // read the temperature sensor once converted
+      GPIO_PinOutClear(gpioPortD, I2C_ENABLE); // deinit i2c enable pin clear
+      break;
+    default:
+      break;
+  }
 } // app_process_action()
 
 
