@@ -1,9 +1,13 @@
-/*
- * i2c.h
+/***************************************************************************//**
  *
- *  Created on: Feb 6, 2024
- *      Author: malolasimman.s.k
- */
+ * @file i2c.h
+ * @brief This code involves i2c function declarations
+ * Created on: Feb 6, 2024
+ * Author: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ * @student: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ * Reference: Class lecture note 6
+ *
+ ******************************************************************************/
 
 #ifndef SRC_I2C_H_
 #define SRC_I2C_H_

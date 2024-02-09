@@ -1,14 +1,22 @@
-/*
- * scheduler.c
+/***************************************************************************//**
  *
- *  Created on: Feb 5, 2024
- *      Author: malolasimman.s.k
- */
+ * @file scheduler.c
+ * @brief This code involves scheduler function definitions
+ * Created on: Feb 5, 2024
+ * Author: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ * @student: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ * Reference: Class lecture note 6
+ *
+ ******************************************************************************/
 
 #include "scheduler.h"
 
 static uint32_t events =0;
 
+
+/**************************************************************************//**
+ * schedulerSetEventUF function
+ *****************************************************************************/
 void schedulerSetEventUF(void)
 {
   CORE_DECLARE_IRQ_STATE;
@@ -22,7 +30,9 @@ void schedulerSetEventUF(void)
 
 
 
-// scheduler routine to return event to main()code and clear that event
+/**************************************************************************//**
+ * scheduler routine to return event to main()code and clear that event
+ *****************************************************************************/
 uint32_t getNextEvent(void)
 {
 

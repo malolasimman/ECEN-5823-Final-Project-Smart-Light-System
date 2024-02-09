@@ -1,9 +1,13 @@
-/*
- * timers.h
+/***************************************************************************//**
  *
- *  Created on: Jan 30, 2024
- *      Author: malolasimman.s.k
- */
+ * @file timers.h
+ * @brief This code involves i2c function declarations
+ * Created on: Jan 30, 2024
+ * Author: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ * @student: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ * Reference: Class lecture note 6
+ *
+ ******************************************************************************/
 
 #ifndef SRC_TIMERS_H_
 #define SRC_TIMERS_H_

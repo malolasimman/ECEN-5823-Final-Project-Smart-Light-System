@@ -56,8 +56,8 @@
 #define EM3 (3)
 #define LOWEST_ENERGY_MODE (EM3)  // current energy mode
 
-#define _Poweruptime (80000)  // power up time for i2c si7021
-#define _14bitCONVTIME (10800)// conversion for temperature sensor
+#define _Poweruptime (80000)  // power up time in ms for i2c si7021
+#define _14bitCONVTIME (10800)// 14 bit conversion time in ms for temperature sensor
 #define UF_EVENT (0x00000001) // underflow event bit mask
 
 /**************************************************************************//**

@@ -1,9 +1,13 @@
-/*
- * i2c.c
+/***************************************************************************//**
  *
- *  Created on: Feb 6, 2024
- *      Author: malolasimman.s.k
- */
+ * @file i2c.c
+ * @brief This code involves i2c function definitions
+ * Created on: Feb 6, 2024
+ * Author: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ * @student: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
+ * Reference: Class lecture note 6
+ *
+ ******************************************************************************/
 
 #include "i2c.h"
 
@@ -16,7 +20,9 @@ I2C_TransferReturn_TypeDef transferStatus;          // make this global for IRQs
 uint8_t cmd_data = 0xF3;                            // make this global for IRQs in A4
 uint16_t read_data;                                 // make this global for IRQs in A4
 
-
+/**************************************************************************//**
+ * I2C init function
+ *****************************************************************************/
 void init_temp(void)
 {
   I2CSPM_Init_TypeDef I2C_Config =
@@ -38,7 +44,9 @@ void init_temp(void)
 
 }
 
-
+/**************************************************************************//**
+ * start_temp function is to send command to start measure the temperature
+ *****************************************************************************/
 void start_temp(void){
   // Send Measure Temperature command
   I2C_TransferSeq_TypeDef transferSequence;           // this one can be local
@@ -53,7 +61,9 @@ void start_temp(void){
   }
 }
 
-
+/**************************************************************************//**
+ * Read_TemperatureSensor function is to read the temperature measurement
+ *****************************************************************************/
 void Read_TemperatureSensor(void){
 
   // Send Measure Temperature command
@@ -68,7 +78,9 @@ void Read_TemperatureSensor(void){
       LOG_ERROR("I2CSPM_Transfer: I2C bus write of cmd=?? failed \r\n");
   }
 }
-
+/**************************************************************************//**
+ * Convert_TemperatureSensor function converts temperature to degree celcius
+ *****************************************************************************/
 void Convert_TemperatureSensor(void){
   uint8_t msb = read_data >> 8;
   uint8_t lsb = read_data;
@@ -79,7 +91,9 @@ void Convert_TemperatureSensor(void){
   LOG_INFO("temperature reading = %d C \r\n", (int)TempVal);
 
 }
-
+/**************************************************************************//**
+ * read_temp_from_si7021 function calls read temperature function and converts temperature to degree celcius
+ *****************************************************************************/
 void read_temp_from_si7021(void){
   Read_TemperatureSensor();
   Convert_TemperatureSensor();
