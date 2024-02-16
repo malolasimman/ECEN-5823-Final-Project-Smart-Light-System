@@ -10,4 +10,7 @@
 #define SRC_IRQ_H_
 #include "scheduler.h"
 
+
+ uint32_t letimerMilliseconds();
+
 #endif /* SRC_IRQ_H_ */

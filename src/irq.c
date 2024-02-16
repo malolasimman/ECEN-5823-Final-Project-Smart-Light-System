@@ -16,9 +16,12 @@
 #include "em_letimer.h"
 #include "gpio.h"
 #include "em_core.h"
+// Include logging specifically for this .c file
+#define INCLUDE_LOG_DEBUG 1
+#include "log.h"
+#include "i2c.h"
 
-
-
+uint32_t timeTicks =0;
 /**************************************************************************//**
  * Low Energy Timer0 Interrupt handler
  *****************************************************************************/
@@ -37,11 +40,59 @@
 
   // Third: perform whatever processing is required
   if(flags & (LETIMER_IF_UF)){
+      timeTicks++;
       schedulerSetEventUF();
+  }
+
+  if(flags & (LETIMER_IF_COMP1)){
+      schedulerSetEventCOMP1();
   }
 
   // NVIC IRQs are re-enabled
   CORE_EXIT_CRITICAL();
 
  }//LETIMER0_IRQHandler
+
+ uint32_t letimerMilliseconds(){
+
+   uint32_t currtime = 0;
+
+   CORE_DECLARE_IRQ_STATE;
+
+   // NVIC IRQs are disabled
+   CORE_ENTER_CRITICAL();
+
+   currtime = timeTicks;
+
+   // NVIC IRQs are re-enabled
+   CORE_EXIT_CRITICAL();
+
+   return currtime;
+ }
+
+ void I2C0_IRQHandler(void)
+ {
+   // this can be locally defined
+   I2C_TransferReturn_TypeDef transferStatus;
+
+   // This shepherds the IC2 transfer along,
+   // it’s a state machine! see em_i2c.c
+   // It accesses global variables :
+   // transferSequence
+   // cmd_data
+   // read_data
+   // that we put into the data structure passed
+   // to I2C_TransferInit()
+
+   transferStatus = I2C_Transfer(I2C0);
+
+   if (transferStatus == i2cTransferDone)
+   {
+       schedulerSetI2CEvent();
+   }
+//   else if (transferStatus < 0)
+//   {
+//       LOG_ERROR("%d \r\n", transferStatus);
+//   }
+ } // I2C0_IRQHandler()
 

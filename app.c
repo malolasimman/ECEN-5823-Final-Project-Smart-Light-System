@@ -76,7 +76,7 @@
 #include "src/oscillators.h"
 #include "src/timers.h"
 #include "src/irq.h"
-#include "em_core.h"
+
 #include "src/scheduler.h"
 #include "src/i2c.h"
 
@@ -209,8 +209,6 @@ SL_WEAK void app_init(void)
 
 
 
-
-
 /**************************************************************************//**
  * Application Process Action.
  *****************************************************************************/
@@ -222,26 +220,11 @@ SL_WEAK void app_process_action(void)
   //         We will create/use a scheme that is far more energy efficient in
   //         later assignments.
 
-  uint32_t evt = getNextEvent();
+  uint32_t event = getNextEvent();
 
-  switch (evt)
-  {
-    case UF_EVENT:                             // Under flow event
-      GPIO_PinOutSet(gpioPortD, I2C_ENABLE);   // init i2c enable pin set
-      timerWaitUs(_Poweruptime);               // wait for power up time
-      init_temp();                             // initialize the si7021 sensor
-      start_temp();                            // start the temperature sensor
-      timerWaitUs(_14bitCONVTIME);             // 14 bit temperature conversion wait time
-      read_temp_from_si7021();                 // read the temperature sensor once converted
-      GPIO_PinOutClear(gpioPortD, I2C_ENABLE); // deinit i2c enable pin clear
-      break;
-    default:
-      break;
-  }
+  temperature_state_machine(event);
+
 } // app_process_action()
-
-
-
 
 
 /**************************************************************************//**

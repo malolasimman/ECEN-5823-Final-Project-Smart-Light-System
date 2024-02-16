@@ -24,7 +24,7 @@
 
 
 void init_temp(void);
-void start_temp(void);
+void start_temp_I2CWrite(void);
 void read_temp_from_si7021(void);
 void Read_TemperatureSensor(void);
 void Convert_TemperatureSensor(void);

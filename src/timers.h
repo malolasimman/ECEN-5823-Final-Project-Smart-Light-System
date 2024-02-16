@@ -15,11 +15,12 @@
 #include "em_letimer.h"
 
 #define LETIMER_PERIOD_MS  (3000)
-
+#define LETIMER_ON_TIME_MS (10)
 #define SEC_US (1000000)
 #define SEC_MS (1000)
 
 void timerWaitUs(uint32_t us_wait);
+void timerWaitUs_irq(uint32_t us_wait);
 
 void initLETIMER0();
 

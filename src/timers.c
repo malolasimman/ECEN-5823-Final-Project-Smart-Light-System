@@ -43,14 +43,14 @@ void initLETIMER0()
   LETIMER_Init (LETIMER0, &letimerInitData);
 
   // calculate and load COMP0 (top)
-  uint32_t topValue = (LETIMER_PERIOD_MS * CMU_ClockFreqGet(cmuClock_LETIMER0)) / SEC_MS;
+  uint32_t topValue = (LETIMER_PERIOD_MS * CMU_ClockFreqGet(cmuClock_LETIMER0)) / SEC_MS; // 3sec
   LETIMER_CompareSet(LETIMER0, 0, topValue);
 
   // Clear all IRQ flags in the LETIMER0 IF status register
   LETIMER_IntClear (LETIMER0, 0xFFFFFFFF);
 
   // Set UF in LETIMER0_IEN, so that the timer will generate IRQs to the NVIC.
-  tmp = LETIMER_IEN_UF ;
+  tmp = LETIMER_IEN_UF;
   LETIMER_IntEnable (LETIMER0, tmp); // Make sure you have defined the ISR routine LETIMER0_IRQHandler()
 
   // Enable the timer to starting counting down, set LETIMER0_CMD[START] bit, see LETIMER0_STATUS[RUNNING] bit
@@ -92,6 +92,48 @@ void timerWaitUs(uint32_t us_wait)
   }
 
 }
+
+/**************************************************************************//**
+ * timerWaitUs interrupt function
+ *****************************************************************************/
+void timerWaitUs_irq(uint32_t us_wait)
+{
+
+  LETIMER_IntClear (LETIMER0, LETIMER_IEN_COMP1); // clear interrupts
+
+  uint32_t topValue = LETIMER_TopGet(LETIMER0); // topValue is Configured for 3sec
+
+  uint32_t ON_timeVal = (us_wait * CMU_ClockFreqGet(cmuClock_LETIMER0)) / SEC_US;// converts us_wait to ticks
+
+
+  if ((ON_timeVal > UINT16_MAX) || (ON_timeVal > topValue)) // range check
+  {
+      return;
+  }
+
+  uint32_t Curr_count = LETIMER_CounterGet(LETIMER0);// get current tick
+
+  // CASE1 : If the required ticks is less than topValue and less than current tick
+  if (Curr_count >= ON_timeVal) // 3 2
+  {
+      ON_timeVal = Curr_count - ON_timeVal; //3-2 =1
+      LETIMER_CompareSet(LETIMER0, 1, ON_timeVal);
+  }
+  else{// CASE2 : If the required ticks is less than topValue and greater than current tick
+      uint32_t rem_ticks = ON_timeVal - Curr_count;
+      ON_timeVal = topValue - rem_ticks + 1;
+      LETIMER_CompareSet(LETIMER0, 1, ON_timeVal);
+
+  }
+
+  // Enable the timer to starting counting down, set LETIMER0_CMD[START] bit, see LETIMER0_STATUS[RUNNING] bit
+  LETIMER_IntEnable (LETIMER0, LETIMER_IEN_COMP1);
+}
+
+
+
+
+
 
 
 

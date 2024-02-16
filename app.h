@@ -47,6 +47,7 @@
 
 #ifndef APP_H
 #define APP_H
+#include "em_core.h"
 
 
 // Energy modes
@@ -54,17 +55,33 @@
 #define EM1 (1)
 #define EM2 (2)
 #define EM3 (3)
-#define LOWEST_ENERGY_MODE (EM3)  // current energy mode
+#define LOWEST_ENERGY_MODE (3)  // current energy mode
 
 #define _Poweruptime (80000)  // power up time in ms for i2c si7021
 #define _14bitCONVTIME (10800)// 14 bit conversion time in ms for temperature sensor
-#define UF_EVENT (0x00000001) // underflow event bit mask
+
+//#define UF_EVENT ((uint32_t)1<<0) // underflow bit mask
+//#define COMP1_EVENT ((uint32_t)1<<1) // comp1 bit mask
+//#define I2C_COMPLETE ((uint32_t)1<<2) // I2C bit mask
+
+#define UF_EVENT (0x00000001) // underflow bit mask
+#define COMP1_EVENT (0x00000002) // comp1 bit mask
+#define I2C_COMPLETE (0x00000004) // I2C bit mask
+
+#define MY_STATES_COUNT (4)
+
+typedef enum fsm_states{
+  IDLE,
+  STATE1,
+  STATE2,
+  STATE3,
+  STATE4
+}my_states;
 
 /**************************************************************************//**
  * Application Init.
  *****************************************************************************/
 void app_init(void);
-
 /**************************************************************************//**
  * Application Process Action.
  *****************************************************************************/
