@@ -38,7 +38,7 @@ See [Mastering Markdown](https://guides.github.com/features/mastering-markdown/)
 
    
 6. How has the power consumption performance of your design changed since the previous assignment?
-   <br>Answer: In my assignment 3 power consumption for the period is 499.41 uW (micro watts), while in assignment 4 it reduced to 66.79 uW (micro watts). From this analysis observed that power consumption is reduce by 86.62%. This significant difference becaus of timer interrupts and EM1 energy mode during the I2c transfer and EM3 at all other modes.
+   <br>Answer: In my assignment 3 power consumption for the period is 499.41 uW (micro watts), while in assignment 4 it reduced to 66.79 uW (micro watts). From this analysis observed that power consumption is reduce by 86.62%. This significant difference in power consumption is because of timer interrupts and EM1 energy mode during the I2c transfer and EM3 at all other modes.
    
 
 
