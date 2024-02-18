@@ -2,7 +2,7 @@
  *
  * @file irq.c
  * @brief This code involves irq handler definitions
- * Created on: Jan 30, 2024
+ * Created on: Feb 14, 2024
  * Author: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
  * @student: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
  * Reference: Class lecture note 5
@@ -20,79 +20,79 @@
 #define INCLUDE_LOG_DEBUG 1
 #include "log.h"
 #include "i2c.h"
+#include "timers.h"
+#include "em_cmu.h"
 
+/**************************************************************************//**
+ * Global Variable
+ *****************************************************************************/
+//Timer ticks
 uint32_t timeTicks =0;
+
 /**************************************************************************//**
  * Low Energy Timer0 Interrupt handler
  *****************************************************************************/
  void LETIMER0_IRQHandler (void){
 
-  CORE_DECLARE_IRQ_STATE;
-
-  // NVIC IRQs are disabled
-  CORE_ENTER_CRITICAL();
-
   // First: determine source of IRQ
   uint32_t flags = LETIMER_IntGetEnabled(LETIMER0);
 
   // Second: clear source of IRQ set in step 3
-  LETIMER_IntClear(LETIMER0,0xFFFFFFFF);
+  LETIMER_IntClear(LETIMER0,flags);
 
   // Third: perform whatever processing is required
   if(flags & (LETIMER_IF_UF)){
-      timeTicks++;
       schedulerSetEventUF();
+      timeTicks++;
   }
 
   if(flags & (LETIMER_IF_COMP1)){
       schedulerSetEventCOMP1();
   }
 
-  // NVIC IRQs are re-enabled
-  CORE_EXIT_CRITICAL();
-
  }//LETIMER0_IRQHandler
 
+ /**************************************************************************//**
+  * letimerMilliseconds
+  *****************************************************************************/
  uint32_t letimerMilliseconds(){
 
-   uint32_t currtime = 0;
+   uint32_t topValue = LETIMER_TopGet(LETIMER0); // Get topValue
+
+   uint32_t Curr_count = LETIMER_CounterGet(LETIMER0);// Get current tick
 
    CORE_DECLARE_IRQ_STATE;
 
-   // NVIC IRQs are disabled
-   CORE_ENTER_CRITICAL();
+   CORE_ENTER_CRITICAL(); // enter critical, turn off interrupts in NVIC
 
-   currtime = timeTicks;
+   uint32_t time = timeTicks * LETIMER_PERIOD_MS; // calculate ticks
 
-   // NVIC IRQs are re-enabled
-   CORE_EXIT_CRITICAL();
+   CORE_EXIT_CRITICAL();  // exit critical, re-enable interrupts in NVIC
 
-   return currtime;
- }
+   topValue -= Curr_count;
 
+   topValue = (topValue * SEC_US) / (CMU_ClockFreqGet(cmuClock_LETIMER0));
+
+   time += topValue; // calculate current time
+   return time;
+ }//letimerMilliseconds
+
+ /**************************************************************************//**
+  * I2C Interrupt handler
+  *****************************************************************************/
  void I2C0_IRQHandler(void)
  {
-   // this can be locally defined
    I2C_TransferReturn_TypeDef transferStatus;
 
-   // This shepherds the IC2 transfer along,
-   // it’s a state machine! see em_i2c.c
-   // It accesses global variables :
-   // transferSequence
-   // cmd_data
-   // read_data
-   // that we put into the data structure passed
-   // to I2C_TransferInit()
-
-   transferStatus = I2C_Transfer(I2C0);
+   transferStatus = I2C_Transfer(I2C0); // i2c transfer
 
    if (transferStatus == i2cTransferDone)
    {
-       schedulerSetI2CEvent();
+       schedulerSetI2CEvent(); // set I2c complete event
    }
-//   else if (transferStatus < 0)
-//   {
-//       LOG_ERROR("%d \r\n", transferStatus);
-//   }
+   if (transferStatus < 0)
+   {
+       LOG_ERROR("I2C Failed with the error %d \r\n", transferStatus);
+   }
  } // I2C0_IRQHandler()
 

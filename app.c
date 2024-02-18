@@ -220,8 +220,10 @@ SL_WEAK void app_process_action(void)
   //         We will create/use a scheme that is far more energy efficient in
   //         later assignments.
 
+  // Get the next event
   uint32_t event = getNextEvent();
 
+  // Call the temperature state machine
   temperature_state_machine(event);
 
 } // app_process_action()

@@ -2,13 +2,16 @@
  *
  * @file i2c.c
  * @brief This code involves i2c function definitions
- * Created on: Feb 6, 2024
+ * Created on: Feb 14, 2024
  * Author: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
  * @student: Malola Simman Srinivasan Kannan, Malola.Srinivasankannan@Colorado.edu
- * Reference: Class lecture note 6
+ * Reference: Class lecture note 6, 8
  *
  ******************************************************************************/
 
+/**************************************************************************//**
+ * Headers
+ *****************************************************************************/
 #include "i2c.h"
 #include "scheduler.h"
 
@@ -16,10 +19,12 @@
 #define INCLUDE_LOG_DEBUG 1
 #include "log.h"
 
-
-I2C_TransferReturn_TypeDef transferStatus;          // make this global for IRQs in A4
+/**************************************************************************//**
+ * Global Variables
+ *****************************************************************************/
+I2C_TransferSeq_TypeDef transferSequence;           // make this global for IRQs in A4
 uint8_t cmd_data = 0xF3;                            // make this global for IRQs in A4
-uint16_t read_data =0;                                 // make this global for IRQs in A4
+uint16_t read_data;                                 // make this global for IRQs in A4
 
 
 /**************************************************************************//**
@@ -52,7 +57,7 @@ void init_temp(void)
  *****************************************************************************/
 void start_temp_I2CWrite(void){
   // Send Measure Temperature command
-  I2C_TransferSeq_TypeDef transferSequence;           // this one can be local
+  I2C_TransferReturn_TypeDef transferStatus;
   transferSequence.addr = SI7021_DEVICE_ADDR << 1;    // shift device address left
   transferSequence.flags = I2C_FLAG_WRITE;
   transferSequence.buf[0].data = &cmd_data;           // pointer to data to measure temperature
@@ -61,10 +66,10 @@ void start_temp_I2CWrite(void){
   NVIC_EnableIRQ(I2C0_IRQn);
   transferStatus = I2C_TransferInit (I2C0, &transferSequence);
 
-//  if (transferStatus < 0)
-//  {
-//      LOG_ERROR("I2C_TransferInit() Write error = %d \r\n", transferStatus);
-//  }
+  if (transferStatus < 0)
+  {
+      LOG_ERROR("I2C_TransferInit() Write error = %d \r\n", transferStatus);
+  }
 }
 
 /**************************************************************************//**
@@ -73,7 +78,7 @@ void start_temp_I2CWrite(void){
 void Read_TemperatureSensor(void){
 
   // Send Measure Temperature command
-  I2C_TransferSeq_TypeDef transferSequence;           // this one can be local
+  I2C_TransferReturn_TypeDef transferStatus;
   transferSequence.addr = SI7021_DEVICE_ADDR << 1;    // shift device address left
   transferSequence.flags = I2C_FLAG_READ;
   transferSequence.buf[0].data = (uint8_t *)&read_data; // pointer to data to write
@@ -82,10 +87,10 @@ void Read_TemperatureSensor(void){
   NVIC_EnableIRQ(I2C0_IRQn);
   transferStatus = I2C_TransferInit (I2C0, &transferSequence);
 
-//  if (transferStatus != i2cTransferDone)
-//  {
-//      LOG_ERROR("I2CSPM_Transfer: I2C bus write of cmd=?? failed \r\n");
-//  }
+  if (transferStatus < 0)
+  {
+      LOG_ERROR("I2C_TransferInit() Read error = %d \r\n", transferStatus);
+  }
 }
 /**************************************************************************//**
  * Convert_TemperatureSensor function converts temperature to degree celcius
