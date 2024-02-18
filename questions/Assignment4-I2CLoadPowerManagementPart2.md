@@ -31,9 +31,9 @@ See [Mastering Markdown](https://guides.github.com/features/mastering-markdown/)
 
 
 5. Given the average current per period from Q1, calculate the operating time of the system for a 1000mAh battery? - ignoring battery manufacturers, efficiencies and battery derating - just a first-order calculation.
-   <br>Answer (in hours): average current per period is 20.20uA, which is equivalent to 0.0202mA
-                         so for operating time of the system for a 1000mAh battery is 1000/0.0202 = 49504.9504 hours. 
-                           therefore operatime of the battery is 49504.9504 hours.
+   <br>Answer (in hours): The average current per period is 20.20uA, which is equivalent to 0.0202mA
+                         so the operating time of the system for a 1000mAh battery is 1000/0.0202 = 49504.9504 hours. 
+                           therefore operating time of the system for a 1000mAh battery is 49504.9504 hours.
 
 
    
