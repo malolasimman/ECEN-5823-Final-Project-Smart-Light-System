@@ -34,7 +34,10 @@ See [Mastering Markdown](https://guides.github.com/features/mastering-markdown/)
 
 
 7. If possible, provide screen shot verifying the slave latency matches what was reported when you logged the values from event = gecko_evt_le_connection_parameters_id. 
-   <br>Answer: 
+   <br>Answer: I set my slave latency to 4 which is 4 * 75 = 300 ms, nut the slave latency from master client (gecko_evt_le_connection_parameters_id) is 0 and actual interval is 45 ms and observed the interval of 42.5 ms and observed slave latency is 0. From the this we can understand that connection interval is 45 milli-second with 0 slave latency.
    <br>Screenshot:  
-   
+   <img width="1439" alt="Screenshot 2024-02-22 at 9 24 10 PM" src="https://github.com/CU-ECEN-5823/ecen5823-assignment5-malolasimman/assets/59477885/9f7a820f-177e-41d3-9ddf-b55a0053f1e2">
+
+   ![Screenshot 2024-02-22 at 8 38 26 PM (2)](https://github.com/CU-ECEN-5823/ecen5823-assignment5-malolasimman/assets/59477885/604c656f-6be3-4217-8ef1-112beea39e8c)
+
 
