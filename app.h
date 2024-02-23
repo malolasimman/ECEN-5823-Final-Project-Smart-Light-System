@@ -61,7 +61,7 @@
 #define EM1 (1)
 #define EM2 (2)
 #define EM3 (3)
-#define LOWEST_ENERGY_MODE (EM3)  // current energy mode
+#define LOWEST_ENERGY_MODE (EM2)  // current energy mode
 
 #define _Poweruptime (80000)  // power up time in ms for i2c si7021
 #define _14bitCONVTIME (10800)// 14 bit conversion time in ms for temperature sensor

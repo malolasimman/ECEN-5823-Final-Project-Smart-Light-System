@@ -14,6 +14,7 @@
  *****************************************************************************/
 #include "i2c.h"
 #include "scheduler.h"
+#include "ble.h"
 
 // Include logging specifically for this .c file
 #define INCLUDE_LOG_DEBUG 1
@@ -101,8 +102,8 @@ void Convert_TemperatureSensor(void){
   float TempVal = msb | (lsb << 8);
   // Converting to degree
   TempVal = ((175.72*TempVal)/65536) - 46.85;
-
-  LOG_INFO("temperature reading = %d C \r\n", (int)TempVal);
+  inidcate_temp((uint32_t)TempVal);
+//  LOG_INFO("temperature reading = %d C \r\n", (int)TempVal);
 
 }
 

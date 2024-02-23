@@ -18,7 +18,7 @@
 
 #include "em_core.h"
 #include "app.h"
-
+#include "sl_bt_api.h"
 /**************************************************************************//**
  * Macros
  *****************************************************************************/
@@ -34,6 +34,6 @@ void schedulerSetEventUF(void);
 void schedulerSetEventCOMP1(void);
 uint32_t getNextEvent(void);
 void schedulerSetI2CEvent();
-void temperature_state_machine(uint32_t event);
+void temperature_state_machine(sl_bt_msg_t* event);
 
 #endif /* SRC_SCHEDULER_H_ */
