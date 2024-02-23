@@ -6,29 +6,35 @@ See [Mastering Markdown](https://guides.github.com/features/mastering-markdown/)
 *Please include screenshots of the profiler window detailing each current measurement captured.  See the file Instructions to add screenshots in assignment.docx in the ECEN 5823 Student Public Folder.*
 
 1. Provide screen shot verifying the Advertising period matches the values required for the assignment.
+   <br>Answer: 259 ms (milli seconds)
    <br>Screenshot:  
-   ![advertising_period](screenshots/assignment5/advertising_period.png)  
+    ![qn1](https://github.com/CU-ECEN-5823/ecen5823-assignment5-malolasimman/assets/59477885/868d6f50-c328-4fc5-8787-258f2ac5af11)
+
 
 2. What is the average current between advertisements - i.e. when the MCU is sleeping in EM2. (Don't measure an interval with a LETIMER UF event)?
-   Answer:
+   <br>Answer: 3.01 uA (micro Amps)
    <br>Screenshot:  
-   ![avg_current_between_advertisements](screenshots/assignment5/avg_current_between_advertisements.png)  
+   ![qn2](https://github.com/CU-ECEN-5823/ecen5823-assignment5-malolasimman/assets/59477885/6459cbae-ee45-4229-b111-637d9589c77e)
 
 3. What is the peak current of an advertisement? 
-   Answer:
+   <br>Answer: 28.21 mA (milli Amps)
    <br>Screenshot:  
-   ![peak_current_of_advertisement](screenshots/assignment5/peak_current_of_advertisement.png)  
+   ![qn_3](https://github.com/CU-ECEN-5823/ecen5823-assignment5-malolasimman/assets/59477885/d8e43971-3ab6-4e6a-91c3-72f73c024c5b)
+
 
 4. Provide screen shot showing the connection interval setting. Does the connection interval match the values you requested in your slave(server) code, or the master's(client) values?.
+   <br>Answer: 42.50 ms (milli seconds)
    <br>Screenshot: 
-   ![connection_interval](screenshots/assignment5/connection_interval.png)  
+   ![qn4](https://github.com/CU-ECEN-5823/ecen5823-assignment5-malolasimman/assets/59477885/877ad632-c646-4fa7-839a-feeb157ca04e)
 
 5. What is the average current between connection intervals - i.e. when the MCU is sleeping in EM2. (Don't measure an interval with a LETIMER UF event)?
-   Answer:
+   <br>Answer: 1.69 mA ( milli Amps)
    <br>Screenshot:  
-   ![avg_current_between_connection_intervals](screenshots/assignment5/avg_current_between_connection_intervals.png)  
+   ![qn5](https://github.com/CU-ECEN-5823/ecen5823-assignment5-malolasimman/assets/59477885/82c2856d-b08d-43a6-be02-090ec8c3705d)
 
-6. If possible, provide screen shot verifying the slave latency matches what was reported when you logged the values from event = gecko_evt_le_connection_parameters_id. 
+
+7. If possible, provide screen shot verifying the slave latency matches what was reported when you logged the values from event = gecko_evt_le_connection_parameters_id. 
+   <br>Answer: 
    <br>Screenshot:  
-   ![slave_latency](screenshots/assignment5/slave_latency.png)  
+   
 
