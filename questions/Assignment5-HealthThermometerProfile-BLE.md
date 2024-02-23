@@ -23,12 +23,13 @@ See [Mastering Markdown](https://guides.github.com/features/mastering-markdown/)
 
 
 4. Provide screen shot showing the connection interval setting. Does the connection interval match the values you requested in your slave(server) code, or the master's(client) values?.
-   <br>Answer: 42.50 ms (milli seconds)
+   <br>Answer: 44.90 ms (milli seconds)
    <br>Screenshot: 
-   ![qn4](https://github.com/CU-ECEN-5823/ecen5823-assignment5-malolasimman/assets/59477885/877ad632-c646-4fa7-839a-feeb157ca04e)
+   ![qn_4](https://github.com/CU-ECEN-5823/ecen5823-assignment5-malolasimman/assets/59477885/ccc96d23-e520-4402-aae4-35fc5d12c741)
+
 
 5. What is the average current between connection intervals - i.e. when the MCU is sleeping in EM2. (Don't measure an interval with a LETIMER UF event)?
-   <br>Answer: 1.69 mA ( milli Amps)
+   <br>Answer: 1.69 uA ( micro Amps)
    <br>Screenshot:  
    ![qn5](https://github.com/CU-ECEN-5823/ecen5823-assignment5-malolasimman/assets/59477885/82c2856d-b08d-43a6-be02-090ec8c3705d)
 
